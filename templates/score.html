@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Score</title>
+</head>
+<body>
+    <h1>Your Score: {{ score }}</h1>
+    {% if tables %}
+        {% for table in tables %}
+            {{ table|safe }}
+        {% endfor %}
+    {% endif %}
+    <a href="/">Go back</a>
+</body>
+</html>

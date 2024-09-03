@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Student Response</title>
+</head>
+<body>
+    <h1>Submit Student Response</h1>
+    <form id="responseForm">
+        <label for="studentResponse">Student Response:</label><br>
+        <textarea id="studentResponse" name="studentResponse" rows="4" cols="50"></textarea><br><br>
+
+        <label for="questionId">Question ID:</label><br>
+        <input type="text" id="questionId" name="questionId"><br><br>
+
+        <label for="rubrics">Rubrics:</label><br>
+        <textarea id="rubrics" name="rubrics" rows="4" cols="50"></textarea><br><br>
+
+
+        <label for="maxResponse">Max Response:</label><br>
+        <input type="text" id="maxResponse" name="maxResponse"><br><br>
+
+        <label for="correctAnswer">Correct Answer:</label><br>
+        <textarea id="correctAnswer" name="correctAnswer" rows="4" cols="50"></textarea><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        document.getElementById('responseForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            // Get the form data
+            const studentResponse = document.getElementById('studentResponse').value;
+            const questionId = document.getElementById('questionId').value;
+            const rubrics = document.getElementById('rubrics').value;
+            const maxResponse = document.getElementById('maxResponse').value;
+            const correctAnswer = document.getElementById('correctAnswer').value;
+
+            // Create a JSON object to send
+            const data = {
+                studentResponse: studentResponse,
+                questionId: questionId,
+                rubrics: rubrics,
+                maxResponse: maxResponse,
+                correctAnswer: correctAnswer
+            };
+
+            fetch('http://127.0.0.1:5000/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.message) {
+                    document.getElementById('result').textContent = data.message;
+                } else {
+                    document.getElementById('result').textContent = 'Your score: ' + data.score;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
