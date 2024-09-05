@@ -68,6 +68,7 @@ grpc-google-iam-v1==0.13.1
 grpcio==1.65.5
 grpcio-status==1.62.2
 grpcio-tools==1.65.5
+gunicorn=20.0.4
 h11==0.14.0
 h2==4.1.0
 h5py==3.11.0
